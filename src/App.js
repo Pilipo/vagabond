@@ -12,9 +12,7 @@ function App() {
     <div id="wrapper" className="App">
       <Nav />
       <div id="content-wrapper" className="d-flex flex-column">
-
         <Body />
-
         <Footer />
       </div>
     </div>
