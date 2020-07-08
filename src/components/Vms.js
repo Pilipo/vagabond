@@ -6,6 +6,7 @@ class Vms extends React.Component {
   constructor() {
     super()
     this.state = {
+      Region: 'ca-central-1',
       Vms: []
     }
     this.retrieveInstances()
@@ -14,9 +15,9 @@ class Vms extends React.Component {
   retrieveInstances() {
     let AWS = require('aws-sdk')
     AWS.config.update({
-      region: 'ca-central-1',
-      accessKeyId: '',
-      secretAccessKey: ''
+      region: this.state.Region,
+      accessKeyId: process.env.REACT_APP_AWS_KEY_ID,
+      secretAccessKey: process.env.REACT_APP_AWS_KEY_SECRET
     })
     let ec2 = new AWS.EC2()
     let params = {
@@ -26,16 +27,18 @@ class Vms extends React.Component {
       if (err) {
         console.log("ERROR", err);
       } else {
-        // console.log("Success! ", data.Reservations[0].Instances);
-        this.setState({
-          Vms: data.Reservations[0].Instances
-        })
+        // console.log("Instances: ", data);
+        if (data.Reservations.length > 0) {
+          this.setState({
+            Vms: data.Reservations[0].Instances
+          })
+        }
       }
     })
   }
 
   render() {
-    console.log(this.state.Vms[0]);
+    // console.log(this.state.Vms[0]);
     const vmItems = this.state.Vms.map( instance =>
       <Vm
         key={instance.InstanceId}
