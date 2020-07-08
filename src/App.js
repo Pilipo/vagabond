@@ -3,12 +3,16 @@ import React from 'react';
 import './App.css';
 import Vms from './components/Vms'
 import Regions from './components/Regions'
+import Nav from './components/Nav'
+import Body from './components/Body'
+import Footer from './components/Footer'
 
 function App() {
   return (
     <div className="App">
-      <Regions />
-      <Vms />
+      <Footer />
+      <Nav />
+      <Body />
     </div>
   );
 }

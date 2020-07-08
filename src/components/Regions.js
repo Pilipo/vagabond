@@ -8,6 +8,7 @@ class Regions extends React.Component {
     this.state = {
       Regions: []
     }
+    this.handleChange = this.handleChange.bind(this)
     this.retrieveRegions()
   }
 
@@ -36,6 +37,10 @@ class Regions extends React.Component {
     })
   }
 
+  handleChange() {
+    console.log("Change: ", this.state);
+  }
+
   render() {
     const regionItems = this.state.Regions.map( region =>
       <Region
@@ -47,7 +52,7 @@ class Regions extends React.Component {
     return (
       <div>
       <h2>Regions List</h2>
-      <select>
+      <select onChange={this.handleChange}>
         {regionItems}
       </select>
       </div>
