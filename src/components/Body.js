@@ -1,12 +1,8 @@
 import React from 'react'
-import BodyNav from './BodyNav'
 
 function Body(props) {
   return (
 
-    <div id="content">
-
-      <BodyNav />
 
       <div className="container-fluid">
 
@@ -403,7 +399,6 @@ function Body(props) {
           </div>
         </div>
 
-      </div>
 
   )
 }

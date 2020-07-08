@@ -51,7 +51,7 @@ class Regions extends React.Component {
     )
     return (
       <div>
-      <h2>Regions List</h2>
+      <h2>New {this.props.type} Instance</h2>
       <select onChange={this.handleChange}>
         {regionItems}
       </select>

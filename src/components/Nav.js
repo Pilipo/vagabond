@@ -108,9 +108,9 @@ function Nav(props) {
       </a>
       <div id="collapsePages" className="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
         <div className="bg-white py-2 collapse-inner rounded">
-          <h6 className="collapse-header">Instance Type:</h6>
-          <a className="collapse-item" href="/#">Proxy</a>
-          <a className="collapse-item" href="/#">VPN</a>
+          <h6 className="collapse-header">New Instance Type:</h6>
+          <a className="collapse-item" href="/newProxy">Proxy</a>
+          <a className="collapse-item" href="/newVPN">VPN</a>
           <div className="collapse-divider"></div>
         </div>
       </div>

@@ -1,5 +1,5 @@
 {
-  "name": "proxy-controls",
+  "name": "vagabond",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -9,10 +9,10 @@
     "aws-sdk": "^2.710.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1"
   },
   "scripts": {
-    "start-https": "export HTTPS=true&&PORT=3000 react-scripts start",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
