@@ -8,6 +8,13 @@ function BodyNav(props) {
         <i className="fa fa-bars"></i>
       </button>
 
+      <a className="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+        <div className="sidebar-brand-icon rotate-n-15">
+          <i className="fas fa-laugh-wink"></i>
+        </div>
+        <div className="sidebar-brand-text mx-3">Vagabond<span className="text-gray-500"> 0.1.0</span></div>
+      </a>
+
       <ul className="navbar-nav ml-auto">
 
         <li className="nav-item dropdown no-arrow d-sm-none">
@@ -27,6 +34,8 @@ function BodyNav(props) {
             </form>
           </div>
         </li>
+
+
 
         <li className="nav-item dropdown no-arrow mx-1">
           <a className="nav-link dropdown-toggle" href="/#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -131,8 +140,8 @@ function BodyNav(props) {
 
         <li className="nav-item dropdown no-arrow">
           <a className="nav-link dropdown-toggle" href="/#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <span className="mr-2 d-none d-lg-inline text-gray-600 small">Valerie Luna</span>
-            <img className="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60" alt="" />
+            <span className="mr-2 d-none d-lg-inline text-gray-600 small">Phillip</span>
+            <img className="img-profile rounded-circle" src="https://source.unsplash.com/qO-PIF84Vxg/60x60" alt="" />
           </a>
           <div className="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
             <a className="dropdown-item" href="/#">

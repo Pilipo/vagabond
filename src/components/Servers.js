@@ -1,13 +1,14 @@
 import React from 'react'
-import Vm from './Vm'
+import Server from './Server'
 
-class Vms extends React.Component {
+class Servers extends React.Component {
 
   constructor() {
     super()
     this.state = {
       Region: 'ca-central-1',
-      Vms: []
+      Vms: [],
+      Type: 'proxy'
     }
     this.retrieveInstances()
   }
@@ -40,23 +41,25 @@ class Vms extends React.Component {
   render() {
     // console.log(this.state.Vms[0]);
     const vmItems = this.state.Vms.map( instance =>
-      <Vm
+      <Server
         key={instance.InstanceId}
         instanceId={instance.InstanceId}
-        type={instance.InstanceType}
+        instanceType={instance.InstanceType}
         name={instance.KeyName}
         ip={instance.PublicIpAddress}
         state={instance.State.Name}
+        type={this.state.Type}
       />
     )
     return (
-      <div>
-      <h1>Virtual Machines (ec2)</h1>
-      <button>create new</button>
-      {vmItems}
+      <>
+      <div className="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 className="h4 mb-0 text-gray-800">{this.state.Region}</h1>
       </div>
+      {vmItems}
+      </>
     )
   }
 }
 
-export default Vms
+export default Servers

@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-d
 
 // import logo from './logo.svg';
 import './App.css';
-import Vms from './components/Vms'
 import Regions from './components/Regions'
 import Nav from './components/Nav'
 import Body from './components/Body'
@@ -15,7 +14,6 @@ class App extends React.Component {
     console.log("Host URL",process.env.REACT_APP_PUBLIC_URL);
     return (
       <div id="wrapper" className="App">
-        <Nav />
         <div id="content-wrapper" className="d-flex flex-column">
         <div id="content">
           <BodyNav />

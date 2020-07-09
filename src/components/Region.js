@@ -2,7 +2,7 @@ import React from 'react'
 
 function Region(props) {
   return (
-      <option>{props.name}</option>
+    <button className="dropdown-item" >{props.name}</button>
   )
 }
 

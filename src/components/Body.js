@@ -1,4 +1,6 @@
 import React from 'react'
+import Servers from './Servers'
+import Regions from './Regions'
 
 function Body(props) {
   return (
@@ -7,295 +9,45 @@ function Body(props) {
       <div className="container-fluid">
 
       <div className="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 className="h3 mb-0 text-gray-800">Dashboard</h1>
+        <h1 className="h3 mb-0 text-gray-800">Server Instances</h1>
       </div>
+      <Servers />
 
-      <div className="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 className="h4 mb-0 text-gray-800">us-east-1</h1>
-      </div>
 
-        <div className="row">
-
-          <div className="col-xl-6 col-md-6 mb-4">
-            <div className="card border-left-primary shadow h-100 py-2">
-              <div className="card-body">
-                <div className="row no-gutters align-items-center">
-                  <div className="col mr-2">
-                    <div className="text-xs font-weight-bold text-primary text-uppercase mb-1">89039d (Proxy)</div>
-                    <div className="h5 mb-0 font-weight-bold text-gray-800">Running</div>
-                  </div>
-                  <div className="col-auto">
-                    <i className="fas fa-calendar fa-2x text-gray-300"></i>
-                  </div>
-                </div>
-                <hr className="sidebar-divider"/>
-                <div className="row no-gutters align-items-left">
-                  <div className="col mr-2">
-                    <div className="text-xs font-weight-bold text-uppercase mb-1">Instance ID</div>
-                  </div>
-                  <div className="col mr-2">
-                    <div className="text-xs font-weight-bold text-uppercase mb-1">i-09969b2b4a289039d</div>
-                  </div>
-                </div>
-                <div className="row no-gutters align-items-left">
-                  <div className="col mr-2">
-                    <div className="text-xs font-weight-bold text-uppercase mb-1">IP Address</div>
-                  </div>
-                  <div className="col mr-2">
-                    <div className="text-xs font-weight-bold text-uppercase mb-1">17.64.124.11</div>
-                  </div>
-                </div>
-                <div className="row no-gutters align-items-left">
-                  <div className="col mr-2">
-                    <div className="text-xs font-weight-bold text-uppercase mb-1">Active Connections</div>
-                  </div>
-                  <div className="col mr-2">
-                    <div className="text-xs font-weight-bold text-uppercase mb-1">2</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="col-xl-6 col-md-6 mb-4">
-            <div className="card border-left-secondary shadow h-100 py-2">
-              <div className="card-body">
-                <div className="row no-gutters align-items-center">
-                  <div className="col mr-2">
-                    <div className="text-xs font-weight-bold text-secondary text-uppercase mb-1">89039d (VPN)</div>
-                    <div className="h5 mb-0 font-weight-bold text-secondary">Stopped</div>
-                  </div>
-                  <div className="col-auto">
-                    <i className="fas fa-calendar fa-2x text-gray-300"></i>
-                  </div>
-                </div>
-                <hr className="sidebar-divider"/>
-
-                <div className="row no-gutters align-items-left">
-                  <div className="col mr-2">
-                    <div className="text-xs font-weight-bold text-uppercase mb-1">Instance ID</div>
-                  </div>
-                  <div className="col mr-2">
-                    <div className="text-xs font-weight-bold text-uppercase mb-1">i-0df06469bb4a292874e</div>
-                  </div>
-                </div>
-                <div className="row no-gutters align-items-left">
-                  <div className="col mr-2">
-                    <div className="text-xs font-weight-bold text-uppercase mb-1">IP Address</div>
-                  </div>
-                  <div className="col mr-2">
-                    <div className="text-xs font-weight-bold text-uppercase mb-1">None</div>
-                  </div>
-                </div>
-                <div className="row no-gutters align-items-left">
-                  <div className="col mr-2">
-                    <div className="text-xs font-weight-bold text-uppercase mb-1">Active Connections</div>
-                  </div>
-                  <div className="col mr-2">
-                    <div className="text-xs font-weight-bold text-uppercase mb-1">None</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          </div>
-
-          <div className="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 className="h4 mb-0 text-gray-800">us-west-1</h1>
-          </div>
-
-          <div className="row">
-          <div className="col-xl-4 col-md-6 mb-4">
-            <div className="card border-left-primary shadow h-100 py-2">
-              <div className="card-body">
-                <div className="row no-gutters align-items-center">
-                  <div className="col mr-2">
-                    <div className="text-xs font-weight-bold text-primary text-uppercase mb-1">89039d (Proxy)</div>
-                    <div className="h5 mb-0 font-weight-bold text-gray-800">Running</div>
-                  </div>
-                  <div className="col-auto">
-                    <i className="fas fa-calendar fa-2x text-gray-300"></i>
-                  </div>
-                </div>
-                <hr className="sidebar-divider"/>
-                <div className="row no-gutters align-items-left">
-                  <div className="col mr-2">
-                    <div className="text-xs font-weight-bold text-uppercase mb-1">Instance ID</div>
-                  </div>
-                  <div className="col mr-2">
-                    <div className="text-xs font-weight-bold text-uppercase mb-1">i-09969b2b4a289039d</div>
-                  </div>
-                </div>
-                <div className="row no-gutters align-items-left">
-                  <div className="col mr-2">
-                    <div className="text-xs font-weight-bold text-uppercase mb-1">IP Address</div>
-                  </div>
-                  <div className="col mr-2">
-                    <div className="text-xs font-weight-bold text-uppercase mb-1">17.64.124.11</div>
-                  </div>
-                </div>
-                <div className="row no-gutters align-items-left">
-                  <div className="col mr-2">
-                    <div className="text-xs font-weight-bold text-uppercase mb-1">Active Connections</div>
-                  </div>
-                  <div className="col mr-2">
-                    <div className="text-xs font-weight-bold text-uppercase mb-1">2</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="col-xl-4 col-md-6 mb-4">
-            <div className="card border-left-primary shadow h-100 py-2">
-              <div className="card-body">
-                <div className="row no-gutters align-items-center">
-                  <div className="col mr-2">
-                    <div className="text-xs font-weight-bold text-primary text-uppercase mb-1">89039d (Proxy)</div>
-                    <div className="h5 mb-0 font-weight-bold text-gray-800">Running</div>
-                  </div>
-                  <div className="col-auto">
-                    <i className="fas fa-calendar fa-2x text-gray-300"></i>
-                  </div>
-                </div>
-                <hr className="sidebar-divider"/>
-                <div className="row no-gutters align-items-left">
-                  <div className="col mr-2">
-                    <div className="text-xs font-weight-bold text-uppercase mb-1">Instance ID</div>
-                  </div>
-                  <div className="col mr-2">
-                    <div className="text-xs font-weight-bold text-uppercase mb-1">i-09969b2b4a289039d</div>
-                  </div>
-                </div>
-                <div className="row no-gutters align-items-left">
-                  <div className="col mr-2">
-                    <div className="text-xs font-weight-bold text-uppercase mb-1">IP Address</div>
-                  </div>
-                  <div className="col mr-2">
-                    <div className="text-xs font-weight-bold text-uppercase mb-1">17.64.124.11</div>
-                  </div>
-                </div>
-                <div className="row no-gutters align-items-left">
-                  <div className="col mr-2">
-                    <div className="text-xs font-weight-bold text-uppercase mb-1">Active Connections</div>
-                  </div>
-                  <div className="col mr-2">
-                    <div className="text-xs font-weight-bold text-uppercase mb-1">2</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-              <div className="col-xl-4 col-md-6 mb-4">
-                <div className="card border-left-secondary shadow h-100 py-2">
-                  <div className="card-body">
-                    <div className="row no-gutters align-items-center">
-                      <div className="col mr-2">
-                        <div className="text-xs font-weight-bold text-secondary text-uppercase mb-1">89039d (VPN)</div>
-                        <div className="h5 mb-0 font-weight-bold text-secondary">Stopped</div>
-                      </div>
-                      <div className="col-auto">
-                        <i className="fas fa-calendar fa-2x text-gray-300"></i>
-                      </div>
-                    </div>
-                    <hr className="sidebar-divider"/>
-                    <div className="row no-gutters align-items-left">
-                      <div className="col mr-2">
-                        <div className="text-xs font-weight-bold text-uppercase mb-1">Instance ID</div>
-                      </div>
-                      <div className="col mr-2">
-                        <div className="text-xs font-weight-bold text-uppercase mb-1">i-0df06469bb4a292874e</div>
-                      </div>
-                    </div>
-                    <div className="row no-gutters align-items-left">
-                      <div className="col mr-2">
-                        <div className="text-xs font-weight-bold text-uppercase mb-1">IP Address</div>
-                      </div>
-                      <div className="col mr-2">
-                        <div className="text-xs font-weight-bold text-uppercase mb-1">None</div>
-                      </div>
-                    </div>
-                    <div className="row no-gutters align-items-left">
-                      <div className="col mr-2">
-                        <div className="text-xs font-weight-bold text-uppercase mb-1">Active Connections</div>
-                      </div>
-                      <div className="col mr-2">
-                        <div className="text-xs font-weight-bold text-uppercase mb-1">None</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              </div>
 
         <div className="d-sm-flex align-items-center justify-content-between mb-4">
-          <h1 className="h3 mb-0 text-gray-800">Next bit</h1>
+          <h1 className="h3 mb-0 text-gray-800">Create New</h1>
         </div>
 
         <div className="row">
 
-          <div className="col-xl-8 col-lg-7">
-            <div className="card shadow mb-4">
-              <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 className="m-0 font-weight-bold text-primary">Earnings Overview</h6>
-                <div className="dropdown no-arrow">
-                  <a className="dropdown-toggle" href="/#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i className="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                  </a>
-                  <div className="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                    <div className="dropdown-header">Dropdown Header:</div>
-                    <a className="dropdown-item" href="/#">Action</a>
-                    <a className="dropdown-item" href="/#">Another action</a>
-                    <div className="dropdown-divider"></div>
-                    <a className="dropdown-item" href="/#">Something else here</a>
-                  </div>
-                </div>
-              </div>
-              <div className="card-body">
-                <div className="chart-area">
-                  <canvas id="myAreaChart"></canvas>
-                </div>
-              </div>
+        <div className="col-12">
+          <div className="card shadow mb-4">
+            <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+              <h6 className="m-0 font-weight-bold text-primary">New Server</h6>
+              <Regions />
             </div>
-          </div>
-
-          <div className="col-xl-4 col-lg-5">
-            <div className="card shadow mb-4">
-              <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 className="m-0 font-weight-bold text-primary">Revenue Sources</h6>
-                <div className="dropdown no-arrow">
-                  <a className="dropdown-toggle" href="/#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i className="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                  </a>
-                  <div className="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                    <div className="dropdown-header">Dropdown Header:</div>
-                    <a className="dropdown-item" href="/#">Action</a>
-                    <a className="dropdown-item" href="/#">Another action</a>
-                    <div className="dropdown-divider"></div>
-                    <a className="dropdown-item" href="/#">Something else here</a>
-                  </div>
-                </div>
+            <div className="card-body align-items-left">
+              <div className="row">
+              <div className="col">Region</div>
+              <div className="col">SELECTED REGION</div>
               </div>
-              <div className="card-body">
-                <div className="chart-pie pt-4 pb-2">
-                  <canvas id="myPieChart"></canvas>
-                </div>
-                <div className="mt-4 text-center small">
-                  <span className="mr-2">
-                    <i className="fas fa-circle text-primary"></i> Direct
-                  </span>
-                  <span className="mr-2">
-                    <i className="fas fa-circle text-success"></i> Social
-                  </span>
-                  <span className="mr-2">
-                    <i className="fas fa-circle text-info"></i> Referral
-                  </span>
-                </div>
+              <hr className="divider" />
+              <div className="row">
+              <div className="col">
+                <button className="btn btn-primary">Create Proxy</button>
+              </div>
+              <div className="col">
+                <button className="btn btn-primary">Create VPN</button>
+              </div>
               </div>
             </div>
           </div>
         </div>
+
+        
+
+          </div>
 
         <div className="row">
 

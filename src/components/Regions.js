@@ -50,12 +50,16 @@ class Regions extends React.Component {
       />
     )
     return (
-      <div>
-      <h2>New {this.props.type} Instance</h2>
-      <select onChange={this.handleChange}>
-        {regionItems}
-      </select>
+
+      <div className="dropdown no-arrow">
+        <button className="btn btn-secondary dropdown-toggle" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Region
+        </button>
+        <div className="dropdown-menu dropdown-menu-right shadow animated--fade-in scrollable" aria-labelledby="dropdownMenuLink">
+          {regionItems}
+        </div>
       </div>
+
     )
   }
 }
