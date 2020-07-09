@@ -27,7 +27,7 @@ class Regions extends React.Component {
       if (err) {
         console.log("ERROR", err);
       } else {
-        console.log("Regions ", data.Regions);
+        // console.log("Regions ", data.Regions);
         if (data.Regions.length > 0) {
           this.setState({
             Regions: data.Regions

@@ -3,11 +3,11 @@ import React from 'react'
 function Server(props) {
   return (
   <div className="col-xl-6 col-md-6 mb-4">
-    <div className="card border-left-primary shadow h-100 py-2">
+    <div className="card border-left-secondary shadow h-100 py-2">
       <div className="card-body">
         <div className="row no-gutters align-items-center">
           <div className="col mr-2">
-            <div className="text-xs font-weight-bold text-primary text-uppercase mb-1">{props.instanceId.substring(props.instanceId.length-7)} ({props.type})</div>
+            <div className="text-xs font-weight-bold text-secondary text-uppercase mb-1">{props.instanceId.substring(props.instanceId.length-7)} ({props.type})</div>
             <div className="h5 mb-0 font-weight-bold text-gray-800">{props.state}</div>
           </div>
           <div className="col-auto">
@@ -49,15 +49,17 @@ function Server(props) {
         </div>
         <hr className="sidebar-divider"/>
         <div className="row no-gutters align-items-center mt-2">
-        <div className="col mr-2">
-          <a href="/" className="d-sm-inline-block btn btn-md btn-success shadow-sm"><i className="text-white-50"></i>Start</a>
+        <div className="col-4">
+          <a href="/" className="w-100 m-2 d-sm-inline-block btn btn-lg btn-success shadow-sm"><i className="text-white-50"></i>Start</a>
         </div>
-        <div className="col mr-2">
-          <a href="/" className="d-sm-inline-block btn btn-md btn-secondary shadow-sm"><i className="text-white-50"></i>Stop</a>
+        <div className="offset-4 col-4">
+          <a href="/" className="w-100 m-2 d-sm-inline-block btn btn-lg btn-secondary shadow-sm"><i className="text-white-50"></i>Stop</a>
         </div>
-        <div className="col mr-2">
-          <a href="/" className="d-sm-inline-block btn btn-md btn-danger shadow-sm"><i className="text-white-50"></i>Terminate</a>
         </div>
+        <div className="row no-gutters align-items-center mt-2">
+          <div className="col">
+            <a href="/" className="w-100 m-2 d-sm-inline-block btn btn-md btn-primary shadow-sm"><i className="text-white-50"></i>View</a>
+          </div>
         </div>
       </div>
     </div>

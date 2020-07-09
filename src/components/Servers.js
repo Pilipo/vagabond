@@ -10,7 +10,7 @@ class Servers extends React.Component {
       Vms: [],
       Type: 'proxy'
     }
-    this.retrieveInstances()
+    var test = this
   }
 
   retrieveInstances() {
@@ -20,25 +20,24 @@ class Servers extends React.Component {
       accessKeyId: process.env.REACT_APP_AWS_KEY_ID,
       secretAccessKey: process.env.REACT_APP_AWS_KEY_SECRET
     })
-    let ec2 = new AWS.EC2()
-    let params = {
+    let req = new AWS.EC2().describeInstances({
       DryRun: false
-    }
-    ec2.describeInstances(params, (err, data) => {
-      if (err) {
-        console.log("ERROR", err);
-      } else {
-        // console.log("Instances: ", data);
-        if (data.Reservations.length > 0) {
-          this.setState({
-            Vms: data.Reservations[0].Instances
-          })
-        }
+    })
+    let promise = req.promise()
+    promise.then(function (data) {
+      if (data.Reservations.length > 0) {
+        this.setState({
+          Vms: data.Reservations[0].Instances
+        })
       }
+    }.bind(this)).catch(function(err) {
+      console.log("ERROR: ", err);
     })
   }
 
   render() {
+    this.retrieveInstances()
+
     // console.log(this.state.Vms[0]);
     const vmItems = this.state.Vms.map( instance =>
       <Server
