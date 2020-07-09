@@ -10,7 +10,7 @@ class Servers extends React.Component {
       Vms: [],
       Type: 'proxy'
     }
-    var test = this
+    this.retrieveInstances()
   }
 
   retrieveInstances() {
@@ -36,7 +36,6 @@ class Servers extends React.Component {
   }
 
   render() {
-    this.retrieveInstances()
 
     // console.log(this.state.Vms[0]);
     const vmItems = this.state.Vms.map( instance =>
