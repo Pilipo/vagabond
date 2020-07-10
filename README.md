@@ -23,15 +23,16 @@ You will also see any lint errors in the console.
 For example, if I have a hosted zone for `example.com`, then `example.com` goes in the .env.local and the instance will point to `proxy.example.com`
 
 ### `Permissions`
-- **EC2**
- - authorizeSecurityGroupIngress
- - startInstances
- - describeInstanceStatus
- - stopInstances
- - describeSecurityGroups
- - revokeSecurityGroupIngress
- - describeInstances
- - describeRegions
- - changeResourceRecordSets
-- **Route53**
- - testDNSAnswer
+##### EC2
+- authorizeSecurityGroupIngress
+- startInstances
+- describeInstanceStatus
+- stopInstances
+- describeSecurityGroups
+- revokeSecurityGroupIngress
+- describeInstances
+- describeRegions
+- changeResourceRecordSets
+
+##### Route53
+- testDNSAnswer
