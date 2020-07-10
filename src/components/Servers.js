@@ -7,8 +7,7 @@ class Servers extends React.Component {
     super()
     this.state = {
       Region: 'ca-central-1',
-      Vms: [],
-      Type: 'proxy'
+      Vms: []
     }
     this.retrieveInstances()
   }
@@ -36,17 +35,18 @@ class Servers extends React.Component {
   }
 
   render() {
-
-    // console.log(this.state.Vms[0]);
     const vmItems = this.state.Vms.map( instance =>
       <Server
         key={instance.InstanceId}
+        instance={instance}
+        region={this.state.Region}
         instanceId={instance.InstanceId}
         instanceType={instance.InstanceType}
         name={instance.KeyName}
         ip={instance.PublicIpAddress}
         state={instance.State.Name}
-        type={this.state.Type}
+        type={instance.Tags[0].Value}
+        hostname="proxy.philliplehner.com"
       />
     )
     return (
