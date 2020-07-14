@@ -1,20 +1,15 @@
-import React from 'react'
-import Servers from './Servers'
-import Regions from './Regions'
+import React from 'react';
+import Servers from './Servers';
+import Regions from './Regions';
 
 function Body(props) {
   return (
-
-
       <div className="container-fluid">
 
       <div className="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 className="h3 mb-0 text-gray-800">Server Instances</h1>
       </div>
       <Servers />
-
-
-
         <div className="d-sm-flex align-items-center justify-content-between mb-4">
           <h1 className="h3 mb-0 text-gray-800">Create New</h1>
         </div>
@@ -44,9 +39,6 @@ function Body(props) {
             </div>
           </div>
         </div>
-
-        
-
           </div>
 
         <div className="row">
@@ -60,23 +52,23 @@ function Body(props) {
               <div className="card-body">
                 <h4 className="small font-weight-bold">Server Migration <span className="float-right">20%</span></h4>
                 <div className="progress mb-4">
-                  <div className="progress-bar bg-danger" role="progressbar" style={{width: 20 + "%"}} aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                  <div className="progress-bar bg-danger" role="progressbar" style={{ width: `${20}%` }} aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
                 <h4 className="small font-weight-bold">Sales Tracking <span className="float-right">40%</span></h4>
                 <div className="progress mb-4">
-                  <div className="progress-bar bg-warning" role="progressbar" style={{width: 40 + "%"}} aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                  <div className="progress-bar bg-warning" role="progressbar" style={{ width: `${40}%` }} aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
                 <h4 className="small font-weight-bold">Customer Database <span className="float-right">60%</span></h4>
                 <div className="progress mb-4">
-                  <div className="progress-bar" role="progressbar" style={{width: 60 + "%"}} aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                  <div className="progress-bar" role="progressbar" style={{ width: `${60}%` }} aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
                 <h4 className="small font-weight-bold">Payout Details <span className="float-right">80%</span></h4>
                 <div className="progress mb-4">
-                  <div className="progress-bar bg-info" role="progressbar" style={{width: 80 + "%"}} aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                  <div className="progress-bar bg-info" role="progressbar" style={{ width: `${80}%` }} aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
                 <h4 className="small font-weight-bold">Account Setup <span className="float-right">Complete!</span></h4>
                 <div className="progress">
-                  <div className="progress-bar bg-success" role="progressbar" style={{width: 100 + "%"}} aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                  <div className="progress-bar bg-success" role="progressbar" style={{ width: `${100}%` }} aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
               </div>
             </div>
@@ -150,9 +142,7 @@ function Body(props) {
           </div>
           </div>
         </div>
-
-
-  )
+  );
 }
 
-export default Body
+export default Body;

@@ -1,18 +1,50 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
+import { Link } from 'react-router-dom';
 
 import { SignUpLink } from '../SignUp';
 import { PasswordForgetLink } from '../PasswordForget';
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
 
-const SignInPage = () => (
+const SignInPageOLD = () => (
   <div>
     <h1>SignIn</h1>
     <SignInForm />
     <PasswordForgetLink />
     <SignUpLink />
+  </div>
+);
+
+const SignInPage = () => (
+  <div className="container">
+    <div className="row justify-content-center">
+      <div className="col-xl-10 col-lg-12 col-md-9">
+        <div className="card o-hidden border-0 shadow-lg my-5">
+          <div className="card-body p-0">
+            <div className="row">
+              <div className="col-lg-6 d-none d-lg-block bg-login-image"></div>
+              <div className="col-lg-6">
+                <div className="p-5">
+                  <div className="text-center">
+                    <h1 className="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                  </div>
+                  <SignInForm />
+                  <hr />
+                  <div className="text-center">
+                    <Link className="small" to={ROUTES.PASSWORD_FORGET}>Profile</Link>
+                  </div>
+                  <div className="text-center">
+                    <Link className="small" to={ROUTES.SIGN_UP}>Create an Account!</Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 );
 
@@ -55,25 +87,40 @@ class SignInFormBase extends Component {
     const isInvalid = password === '' || email === '';
 
     return (
-      <form onSubmit={this.onSubmit}>
-        <input
-          name="email"
-          value={email}
-          onChange={this.onChange}
-          type="text"
-          placeholder="Email Address"
-        />
-        <input
-          name="password"
-          value={password}
-          onChange={this.onChange}
-          type="password"
-          placeholder="Password"
-        />
-        <button disabled={isInvalid} type="submit">
-          Sign In
-        </button>
+      <form className="user" onSubmit={this.onSubmit}>
+        <div className="form-group">
+          <input
+            className="form-control form-control-user"
+            id="exampleInputEmail"
+            name="email"
+            value={email}
+            onChange={this.onChange}
+            type="text"
+            placeholder="Enter Email Address..."
+            aria-describedby="emailHelp"
+          />
+        </div>
+        <div className="form-group">
+          <input
+            className="form-control form-control-user"
+            id="exampleInputPassword"
+            name="password"
+            value={password}
+            onChange={this.onChange}
+            type="password"
+            placeholder="Password"
+          />
 
+        </div>
+        <div className="form-group">
+          <div className="custom-control custom-checkbox small">
+            <input type="checkbox" className="custom-control-input" id="customCheck" />
+            <label className="custom-control-label" htmlFor="customCheck">Remember Me</label>
+          </div>
+        </div>
+        <button disabled={isInvalid} className="btn btn-primary btn-user btn-block" type="submit">
+          Login
+        </button>
         {error && <p>{error.message}</p>}
       </form>
     );
