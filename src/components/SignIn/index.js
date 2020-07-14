@@ -21,7 +21,7 @@ const SignInPage = () => (
                   <SignInForm />
                   <hr />
                   <div className="text-center">
-                    <Link className="small" to={ROUTES.PASSWORD_FORGET}>Profile</Link>
+                    <Link className="small" to={ROUTES.PASSWORD_FORGET}>Forget your password?</Link>
                   </div>
                   <div className="text-center">
                     <Link className="small" to={ROUTES.SIGN_UP}>Create an Account!</Link>
