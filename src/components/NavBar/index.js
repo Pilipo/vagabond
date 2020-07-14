@@ -30,8 +30,8 @@ const NavBarAuth = (props) => (
           <Gravatar className="img-profile rounded-circle" alt="" email={props.user.email} />
         </a>
         <div className="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+          <Link className="dropdown-item" to={ROUTES.SERVERS}><i className="fas fa-server fa-sm fa-fw mr-2 text-gray-400"></i>Servers</Link>
           <Link className="dropdown-item" to={ROUTES.ACCOUNT}><i className="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>Profile</Link>
-          <Link className="dropdown-item" to={ROUTES.HOME}><i className="fas fa-home fa-sm fa-fw mr-2 text-gray-400"></i>Home</Link>
           <Link className="dropdown-item" to={ROUTES.ADMIN}><i className="fas fa-cog fa-sm fa-fw mr-2 text-gray-400"></i>Admin</Link>
           <div className="dropdown-divider"></div>
           <SignOutButton />
