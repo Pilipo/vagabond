@@ -177,7 +177,7 @@ class Server extends React.Component {
 
   render() {
     return (
-      <div className="col-xl-6 col-md-6 mb-4">
+      <div className="col">
         <div className="card border-left-secondary shadow h-100 py-2">
           <div className="card-body">
             <div className="row no-gutters align-items-center">
