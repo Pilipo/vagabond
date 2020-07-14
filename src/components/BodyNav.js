@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import BodyNavbar from './BodyNavbar';
 
 function BodyNav(props) {
   return (
@@ -10,13 +11,9 @@ function BodyNav(props) {
         </div>
         <div className="sidebar-brand-text mx-3">{process.env.REACT_APP_NAME}<span className="text-gray-500"> {process.env.REACT_APP_VERSION}</span></div>
       </a>
-
-      
-
+      <BodyNavbar />
     </nav>
-
-
-  )
+  );
 }
 
-export default BodyNav
+export default BodyNav;
