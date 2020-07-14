@@ -1,6 +1,6 @@
 import React from 'react';
-import Servers from './Servers';
-import Regions from './Regions';
+import Servers from '../Servers';
+import Regions from '../Regions';
 
 function Body(props) {
   return (
