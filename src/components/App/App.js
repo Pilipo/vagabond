@@ -17,7 +17,6 @@ import BodyNav from '../BodyNav';
 import Footer from '../Footer';
 
 const App = () => (
-
       <div id="wrapper" className="App">
         <div id="content-wrapper" className="d-flex flex-column">
         <div id="content">
