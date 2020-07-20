@@ -8,12 +8,12 @@ import { AuthUserContext } from '../Session';
 
 const NavBar = () => (
   <nav className="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-    <a className="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+    <Link className="sidebar-brand d-flex align-items-center justify-content-center" to={ROUTES.LANDING}>
       <div className="sidebar-brand-icon rotate-n-15">
         <i className="fas fa-route"></i>
       </div>
       <div className="sidebar-brand-text text-capitalize mx-3">{process.env.REACT_APP_NAME}<span className="text-gray-500"> {process.env.REACT_APP_VERSION}</span></div>
-    </a>
+    </Link>
 
     <AuthUserContext.Consumer>
       {(authUser) => (authUser ? <NavBarAuth user={authUser} /> : <NavBarNonAuth />)}
