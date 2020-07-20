@@ -47,6 +47,7 @@ class RegionSelection extends React.Component {
   }
 
   render() {
+    console.log(this.state.Regions);
     const regionItems = this.state.Regions.map((region) => (
       <button
         onClick={() => {
@@ -55,6 +56,7 @@ class RegionSelection extends React.Component {
         }}
         key={region.RegionName}
         name={region.RegionName}
+        instancecount={region.instances ? region.instances.length : 0}
         className="dropdown-item border-bottom pb-2"
       >
         <div>
@@ -62,7 +64,8 @@ class RegionSelection extends React.Component {
           <small className='text-muted'> ( instance count {region.instances ? region.instances.length : '0'} )</small>
         </div>
       </button>
-    )).sort((a, b) => (a.key > b.key ? 1 : -1));
+    )).sort((a, b) => (a.key > b.key ? 1 : -1))
+      .sort((a, b) => (a.props.instancecount < b.props.instancecount ? 1 : -1));
     return (
       <div className='mb-3'>
         <div className="dropdown no-arrow">
