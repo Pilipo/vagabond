@@ -32,6 +32,8 @@ class Servers extends React.Component {
         this.setState({
           Vms: data.Reservations[0].Instances,
         });
+      } else {
+        this.setState({ Vms: [] });
       }
     }).catch((err) => {
       this.setState(err);
@@ -56,9 +58,6 @@ class Servers extends React.Component {
     return (
       <>
       <RegionSelection handler={this.handleRegionChange} />
-      <div className="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 className="h4 mb-0 text-gray-800">{this.state.Region}</h1>
-      </div>
       {vmItems}
       </>
     );

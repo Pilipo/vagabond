@@ -47,7 +47,6 @@ class RegionSelection extends React.Component {
   }
 
   render() {
-    console.log(this.state);
     const regionItems = this.state.Regions.map((region) => (
       <button
         onClick={() => {
@@ -56,24 +55,25 @@ class RegionSelection extends React.Component {
         }}
         key={region.RegionName}
         name={region.RegionName}
-        className="dropdown-item"
+        className="dropdown-item border-bottom pb-2"
       >
         <div>
-          <span>{region.RegionName}</span>
-          <span>Instance count: {region.instances ? region.instances.length : '0'}</span>
+          <div>{region.RegionName}</div>
+          <small className='text-muted'> ( instance count {region.instances ? region.instances.length : '0'} )</small>
         </div>
       </button>
-    ));
+    )).sort((a, b) => (a.key > b.key ? 1 : -1));
     return (
-      <div>
-        <h1>Server display</h1>
+      <div className='mb-3'>
         <div className="dropdown no-arrow">
+        <h1 className='h3'><span className='pr-2'>Server display for</span>
           <button className="btn btn-secondary dropdown-toggle" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             {this.state.selectedRegion ? this.state.selectedRegion : 'Select Region'}
           </button>
           <div className="dropdown-menu dropdown-menu-right shadow animated--fade-in scrollable" aria-labelledby="dropdownMenuLink">
             {regionItems}
           </div>
+          </h1>
         </div>
       </div>
     );

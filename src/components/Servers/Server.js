@@ -237,11 +237,11 @@ class Server extends React.Component {
               </button>
             </div>
             </div>
-            <div className="row no-gutters align-items-center mt-2">
+            {/* <div className="row no-gutters align-items-center mt-2">
               <div className="col">
                 <button className="w-100 m-2 d-sm-inline-block btn btn-md btn-primary shadow-sm"><i className="text-white-50"></i>View</button>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
