@@ -14,14 +14,16 @@ const NavBar = () => (
       </div>
       <div className="sidebar-brand-text text-capitalize mx-3">{process.env.REACT_APP_NAME}<span className="text-gray-500"> {process.env.REACT_APP_VERSION}</span></div>
     </Link>
-
     <AuthUserContext.Consumer>
       {(authUser) => (authUser ? <NavBarAuth user={authUser} /> : <NavBarNonAuth />)}
     </AuthUserContext.Consumer>
   </nav>
 );
 
-const NavBarAuth = (props) => (
+const NavBarAuth = (props) => {
+  return (
+  <>
+  <div className="text-center ml-auto">Your IP address: {props.user.ip}</div>
   <ul className="navbar-nav ml-auto">
     <div className="topbar-divider d-none d-sm-block"></div>
     <li className="nav-item dropdown no-arrow">
@@ -41,7 +43,8 @@ const NavBarAuth = (props) => (
       {/* <Link className="nav-link dropdown-toggle" to={ROUTES.SIGN_IN}>Sign In</Link> */}
     </li>
   </ul>
-);
+  </>
+)};
 
 const NavBarNonAuth = () => (
   <ul className="navbar-nav ml-auto">

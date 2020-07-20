@@ -47,7 +47,6 @@ class RegionSelection extends React.Component {
   }
 
   render() {
-    console.log(this.state.Regions);
     const regionItems = this.state.Regions.map((region) => (
       <button
         onClick={() => {

@@ -160,11 +160,11 @@ class Server extends React.Component {
       accessKeyId: process.env.REACT_APP_AWS_KEY_ID,
       secretAccessKey: process.env.REACT_APP_AWS_KEY_SECRET,
     });
-    const promise = new AWS.EC2().describeInstances({
+    const instancePromise = new AWS.EC2().describeInstances({
       DryRun: false,
       InstanceIds: [this.state.instance.InstanceId],
     }).promise();
-    promise.then((data) => {
+    instancePromise.then((data) => {
       const replyState = data.Reservations[0].Instances[0].State.Name;
       if (replyState.toUpperCase() !== 'RUNNING' && replyState.toUpperCase() !== 'STOPPED') {
         this.timer.push(setTimeout(() => this.checkInstanceState(), this.timeout));
@@ -172,10 +172,38 @@ class Server extends React.Component {
         this.checkDns();
       }
       this.setState({ instance: data.Reservations[0].Instances[0] });
-    }).catch((err) => (this.setState(err)));
+      return data.Reservations[0].Instances[0];
+    }).then((instance) => {
+      const instanceIds = instance.SecurityGroups.map((sgItem) => {
+        return sgItem.GroupId;
+      });
+      const sgPromise = new AWS.EC2().describeSecurityGroups({
+        GroupIds: instanceIds,
+      }).promise();
+      sgPromise.then((sgData) => {
+        const tempInstance = this.state.instance;
+        Object.assign(tempInstance.SecurityGroups, sgData.SecurityGroups);
+        this.setState({ instance: tempInstance });
+      });
+    })
+      .catch((err) => (this.setState(err)));
   }
 
   render() {
+    const sgArray = [];
+    this.state.instance.SecurityGroups.forEach((sgItem) => {
+      if (sgItem.IpPermissions) {
+        sgArray.push(
+        <div key={sgItem.GroupId}>
+          <div className="text-xs font-weight-bold text-uppercase mb-1"><span>Name:</span> {sgItem.GroupName}</div>
+          <div className="text-xs font-weight-bold text-uppercase mb-1"><span>ID:</span> {sgItem.GroupId}</div>
+          <div className="text-xs font-weight-bold text-uppercase mb-1">Ingress: {sgItem.IpPermissions[0].IpRanges[0].CidrIp}</div>
+          <div className="text-xs font-weight-bold text-uppercase mb-1">Egress: {sgItem.IpPermissionsEgress[0].IpRanges[0].CidrIp}</div>
+          <hr className="sidebar-divider"/>
+        </div>,
+        );
+      }
+    });
     return (
       <div className="col">
         <div className="card border-left-secondary shadow h-100 py-2">
@@ -192,31 +220,39 @@ class Server extends React.Component {
             <hr className="sidebar-divider"/>
             <div className="row no-gutters ">
               <div className="col mr-2">
-                <div className="text-sm text-gray-900 font-weight-bold text-uppercase mb-1">Instance ID</div>
-                <div className="text-xs font-weight-bold text-uppercase mb-1">{this.props.instanceId}</div>
+                <div className="row no-gutters ">
+                  <div className="col mr-2">
+                    <div className="text-sm text-gray-900 font-weight-bold text-uppercase mb-1">Instance ID</div>
+                    <div className="text-xs font-weight-bold text-uppercase mb-1">{this.props.instanceId}</div>
+                  </div>
+                </div>
+                <div className="row no-gutters align-items-left">
+                <div className="col mr-2">
+                    <div className="text-sm text-gray-900 font-weight-bold text-uppercase mb-1">IP Address</div>
+                    <div className="text-xs font-weight-bold text-uppercase mb-1">{this.state.instance.PublicIpAddress ? this.state.instance.PublicIpAddress : 'None'}</div>
+                  </div>
+                </div>
+                <div className="row no-gutters align-items-left">
+                <div className="col mr-2">
+                    <div className="text-sm text-gray-900 font-weight-bold text-uppercase mb-1">Instance Type</div>
+                    <div className="text-xs font-weight-bold text-uppercase mb-1">{this.props.instanceType ? this.props.instanceType : 'None'}</div>
+                  </div>
+                </div>
+                <div className="row no-gutters align-items-left">
+                <div className="col mr-2">
+                    <div className="text-sm text-gray-900 font-weight-bold text-uppercase mb-1">DNS Record</div>
+                    <div className="text-xs font-weight-bold text-uppercase mb-1">{this.state.dnsState.Name ? this.state.dnsState.Name : 'None'}</div>
+                    <div className="text-xs font-weight-bold text-uppercase mb-1">{this.state.dnsState.Ip ? this.state.dnsState.Ip : ''}</div>
+                    <div className="text-xs font-weight-bold text-uppercase mb-1">{this.state.dnsState.Propagated ? 'Propogated' : 'Not Propogated'}</div>
+                  </div>
+                </div>
+                <hr className="sidebar-divider"/>
+              </div>
+              <div className="col mr-2">
+                <div className="text-sm text-gray-900 font-weight-bold text-uppercase mb-1">Security Group Details</div>
+                {sgArray}
               </div>
             </div>
-            <div className="row no-gutters align-items-left">
-            <div className="col mr-2">
-                <div className="text-sm text-gray-900 font-weight-bold text-uppercase mb-1">IP Address</div>
-                <div className="text-xs font-weight-bold text-uppercase mb-1">{this.state.instance.PublicIpAddress ? this.state.instance.PublicIpAddress : 'None'}</div>
-              </div>
-            </div>
-            <div className="row no-gutters align-items-left">
-            <div className="col mr-2">
-                <div className="text-sm text-gray-900 font-weight-bold text-uppercase mb-1">Instance Type</div>
-                <div className="text-xs font-weight-bold text-uppercase mb-1">{this.props.instanceType ? this.props.instanceType : 'None'}</div>
-              </div>
-            </div>
-            <div className="row no-gutters align-items-left">
-            <div className="col mr-2">
-                <div className="text-sm text-gray-900 font-weight-bold text-uppercase mb-1">DNS Record</div>
-                <div className="text-xs font-weight-bold text-uppercase mb-1">{this.state.dnsState.Name ? this.state.dnsState.Name : 'None'}</div>
-                <div className="text-xs font-weight-bold text-uppercase mb-1">{this.state.dnsState.Ip ? this.state.dnsState.Ip : ''}</div>
-                <div className="text-xs font-weight-bold text-uppercase mb-1">{this.state.dnsState.Propagated ? 'Propogated' : 'Not Propogated'}</div>
-              </div>
-            </div>
-            <hr className="sidebar-divider"/>
             <div className="row no-gutters align-items-center mt-2">
             <div className="col-4">
               <button
