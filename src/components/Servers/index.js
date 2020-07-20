@@ -2,26 +2,24 @@ import React from 'react';
 import AWS from 'aws-sdk';
 
 import Server from './Server';
-import Regions from '../Regions';
+import RegionSelection from '../RegionSelection';
 
 class Servers extends React.Component {
   constructor() {
     super();
     this.state = {
-      Region: 'ca-central-1',
+      Region: null,
       Vms: [],
     };
   }
 
-  componentDidMount() {
-    if (this.state.Region !== null) {
-      this.retrieveInstances();
-    }
+  handleRegionChange = (newRegion) => {
+    this.setState({ Region: newRegion }, this.retrieveServerInstances(newRegion));
   }
 
-  retrieveInstances() {
+  retrieveServerInstances(targetRegion = this.state.Region) {
     AWS.config.update({
-      region: this.state.Region,
+      region: targetRegion,
       accessKeyId: process.env.REACT_APP_AWS_KEY_ID,
       secretAccessKey: process.env.REACT_APP_AWS_KEY_SECRET,
     });
@@ -57,7 +55,7 @@ class Servers extends React.Component {
     ));
     return (
       <>
-      <Regions />
+      <RegionSelection handler={this.handleRegionChange} />
       <div className="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 className="h4 mb-0 text-gray-800">{this.state.Region}</h1>
       </div>
