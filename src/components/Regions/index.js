@@ -2,15 +2,31 @@ import React from 'react';
 import AWS from 'aws-sdk';
 
 import Region from './Region';
+import regionHelper from '../../helpers/data/regionData';
 
 class Regions extends React.Component {
   constructor() {
     super();
     this.state = {
       Regions: [],
+      instances: [],
     };
-    this.handleChange = this.handleChange.bind(this);
     this.retrieveRegions();
+  }
+
+  getInstancesPerRegion(regionsArray) {
+    if (regionsArray.length > 0) {
+      regionsArray.forEach((region) => {
+        const promise = regionHelper.getEC2InstancesByRegionName(region.RegionName);
+        promise.then((data) => {
+          if (data.Reservations[0]) {
+            const { instances } = this.state;
+            instances.push(data.Reservations[0].Instances);
+            this.setState({ instances });
+          }
+        });
+      });
+    }
   }
 
   retrieveRegions() {
@@ -26,6 +42,7 @@ class Regions extends React.Component {
         this.setState({
           Regions: data.Regions,
         });
+        this.getInstancesPerRegion(data.Regions);
       }
     }).catch((err) => (this.setState(err)));
   }
@@ -39,7 +56,6 @@ class Regions extends React.Component {
       />
     ));
     return (
-
       <div className="dropdown no-arrow">
         <button className="btn btn-secondary dropdown-toggle" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Region

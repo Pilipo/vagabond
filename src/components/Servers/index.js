@@ -2,6 +2,7 @@ import React from 'react';
 import AWS from 'aws-sdk';
 
 import Server from './Server';
+import Regions from '../Regions';
 
 class Servers extends React.Component {
   constructor() {
@@ -10,7 +11,12 @@ class Servers extends React.Component {
       Region: 'ca-central-1',
       Vms: [],
     };
-    this.retrieveInstances();
+  }
+
+  componentDidMount() {
+    if (this.state.Region !== null) {
+      this.retrieveInstances();
+    }
   }
 
   retrieveInstances() {
@@ -51,6 +57,7 @@ class Servers extends React.Component {
     ));
     return (
       <>
+      <Regions />
       <div className="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 className="h4 mb-0 text-gray-800">{this.state.Region}</h1>
       </div>
