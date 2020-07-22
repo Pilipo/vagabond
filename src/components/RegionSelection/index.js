@@ -72,7 +72,7 @@ class RegionSelection extends React.Component {
           <button className="btn btn-secondary dropdown-toggle" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             {this.state.selectedRegion ? this.state.selectedRegion : 'Select Region'}
           </button>
-          <div className="dropdown-menu dropdown-menu-right shadow animated--fade-in scrollable" aria-labelledby="dropdownMenuLink">
+          <div className="dropdown-menu dropdown-menu-right shadow animated--fade-in pre-scrollable" aria-labelledby="dropdownMenuLink">
             {regionItems}
           </div>
           </h1>
