@@ -1,6 +1,8 @@
 import React from 'react';
 import AWS from 'aws-sdk';
 
+import EC2 from '../../helpers/data/ec2Data';
+
 class Server extends React.Component {
   constructor(props) {
     super(props);
@@ -23,41 +25,29 @@ class Server extends React.Component {
   }
 
   startServer() {
-    AWS.config.update({
-      region: this.state.region,
-      accessKeyId: process.env.REACT_APP_AWS_KEY_ID,
-      secretAccessKey: process.env.REACT_APP_AWS_KEY_SECRET,
-    });
-    const req = new AWS.EC2().startInstances({
-      DryRun: false,
-      InstanceIds: [this.state.instance.InstanceId],
-    });
-    const promise = req.promise();
-    promise.then((data) => {
-      if (data.StartingInstances.length > 0) {
-        this.setState({ changeDetail: data.StartingInstances[0] });
-      }
-      this.updateDns();
-    }).catch((err) => this.setState(err));
-    this.timer.push(setTimeout(() => this.checkInstanceState(), this.timeout));
+    const { region, instance } = this.state;
+    EC2.startInstance(region, instance.InstanceId)
+      .then((data) => {
+        if (data.StartingInstances.length > 0) {
+          this.setState({ changeDetail: data.StartingInstances[0] });
+        }
+        this.updateDns();
+      })
+      .then(() => this.checkInstanceState())
+      .catch((err) => this.setState(err));
   }
 
   stopServer() {
-    AWS.config.update({
-      region: this.state.region,
-      accessKeyId: process.env.REACT_APP_AWS_KEY_ID,
-      secretAccessKey: process.env.REACT_APP_AWS_KEY_SECRET,
-    });
-    const promise = new AWS.EC2().stopInstances({
-      DryRun: false,
-      InstanceIds: [this.state.instance.InstanceId],
-    }).promise();
-    promise.then((data) => {
-      if (data.StoppingInstances.length > 0) {
-        this.setState({ changeDetail: data.StoppingInstances[0] });
-      }
-    }).catch((err) => (this.setState(err)));
-    this.timer.push(setTimeout(() => this.checkInstanceState(), this.timeout));
+    const { region, instance } = this.state;
+    EC2.stopInstance(region, instance.InstanceId)
+      .then((data) => {
+        if (data.StoppingInstances.length > 0) {
+          this.setState({ changeDetail: data.StoppingInstances[0] });
+        }
+      })
+      .then(() => this.checkInstanceState())
+      .catch((err) => (this.setState(err)));
+    // this.timer.push(setTimeout(() => this.checkInstanceState(), this.timeout));
   }
 
   updateDns() {
@@ -155,37 +145,26 @@ class Server extends React.Component {
   }
 
   checkInstanceState() {
-    AWS.config.update({
-      region: this.state.region,
-      accessKeyId: process.env.REACT_APP_AWS_KEY_ID,
-      secretAccessKey: process.env.REACT_APP_AWS_KEY_SECRET,
-    });
-    const instancePromise = new AWS.EC2().describeInstances({
-      DryRun: false,
-      InstanceIds: [this.state.instance.InstanceId],
-    }).promise();
-    instancePromise.then((data) => {
-      const replyState = data.Reservations[0].Instances[0].State.Name;
-      if (replyState.toUpperCase() !== 'RUNNING' && replyState.toUpperCase() !== 'STOPPED') {
-        this.timer.push(setTimeout(() => this.checkInstanceState(), this.timeout));
-      } else {
-        this.checkDns();
-      }
-      this.setState({ instance: data.Reservations[0].Instances[0] });
-      return data.Reservations[0].Instances[0];
-    }).then((instance) => {
-      const instanceIds = instance.SecurityGroups.map((sgItem) => {
-        return sgItem.GroupId;
-      });
-      const sgPromise = new AWS.EC2().describeSecurityGroups({
-        GroupIds: instanceIds,
-      }).promise();
-      sgPromise.then((sgData) => {
-        const tempInstance = this.state.instance;
-        Object.assign(tempInstance.SecurityGroups, sgData.SecurityGroups);
-        this.setState({ instance: tempInstance });
-      });
-    })
+    const { region, instance } = this.state;
+    EC2.getInstanceState(region, instance.InstanceId)
+      .then((data) => {
+        const replyState = data.Reservations[0].Instances[0].State.Name;
+        if (replyState.toUpperCase() !== 'RUNNING' && replyState.toUpperCase() !== 'STOPPED') {
+          this.timer.push(setTimeout(() => this.checkInstanceState(), this.timeout));
+        } else {
+          this.checkDns();
+        }
+        this.setState({ instance: data.Reservations[0].Instances[0] });
+        return data.Reservations[0].Instances[0];
+      })
+      .then((data) => {
+        const securityGroupArray = data.SecurityGroups.map((sgItem) => sgItem.GroupId);
+        EC2.getInstanceSecurityGroups(region, securityGroupArray).then((sgData) => {
+          const tempInstance = this.state.instance;
+          Object.assign(tempInstance.SecurityGroups, sgData.SecurityGroups);
+          this.setState({ data: tempInstance });
+        });
+      })
       .catch((err) => (this.setState(err)));
   }
 
