@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
+import '../../styles/sb-admin-2.css';
 import { withAuthentication } from '../Session';
 import LandingPage from '../Landing';
 import SignUpPage from '../SignUp';
@@ -10,7 +11,6 @@ import ServerPage from '../Servers';
 import AccountPage from '../Account';
 import AdminPage from '../Admin';
 import * as ROUTES from '../../constants/routes';
-import './App.css';
 import Footer from '../Footer';
 import NavBar from '../NavBar';
 

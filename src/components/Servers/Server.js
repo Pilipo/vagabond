@@ -214,7 +214,7 @@ class Server extends React.Component {
                 <div className="h5 mb-0 font-weight-bold text-gray-800">{this.state.instance.State.Name}</div>
               </div>
               <div className="col-auto">
-                <i className="fas fa-calendar fa-2x text-gray-300"></i>
+                <i className="fas fa-server fa-2x text-gray-300"></i>
               </div>
             </div>
             <hr className="sidebar-divider"/>
