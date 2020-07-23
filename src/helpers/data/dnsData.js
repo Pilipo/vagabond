@@ -1,5 +1,5 @@
 const checkDns = (ip, instanceObj, hostname) => new Promise((resolve, reject) => {
-  let dnsState = {
+  const dnsState = {
     Name: null,
     Ip: null,
     Propagated: false,
