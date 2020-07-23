@@ -1,13 +1,14 @@
 import React from 'react';
-import AWS from 'aws-sdk';
 
 import EC2 from '../../helpers/data/ec2Data';
+import dnsHelper from '../../helpers/data/dnsData';
 
 class Server extends React.Component {
   constructor(props) {
     super(props);
-    // console.log(props)
+
     this.state = {
+      loading: false,
       instance: props.instance,
       region: props.region,
       dnsState: {
@@ -22,6 +23,10 @@ class Server extends React.Component {
 
   componentDidMount() {
     this.checkInstanceState();
+  }
+
+  componentWillUnmount() {
+    this.timer = null;
   }
 
   startServer() {
@@ -47,101 +52,34 @@ class Server extends React.Component {
       })
       .then(() => this.checkInstanceState())
       .catch((err) => (this.setState(err)));
-    // this.timer.push(setTimeout(() => this.checkInstanceState(), this.timeout));
   }
 
   updateDns() {
-    if (this.state.instance.PublicIpAddress === undefined) {
+    const { region, instance } = this.state;
+    const { hostname, type } = this.props;
+
+    if (instance.PublicIpAddress === undefined) {
       this.timer.push(setTimeout(() => this.updateDns(), this.timeout));
       return;
     }
-    AWS.config.update({
-      region: this.state.region,
-      accessKeyId: process.env.REACT_APP_AWS_KEY_ID,
-      secretAccessKey: process.env.REACT_APP_AWS_KEY_SECRET,
-    });
-    const params = {
-      ChangeBatch: {
-        Changes: [
-          {
-            Action: 'UPSERT',
-            ResourceRecordSet: {
-              Name: this.props.hostname,
-              ResourceRecords: [
-                {
-                  Value: this.state.instance.PublicIpAddress,
-                },
-              ],
-              TTL: 60,
-              Type: 'A',
-            },
-          },
-        ],
-        Comment: `${this.props.type} record`,
-      },
-      HostedZoneId: process.env.REACT_APP_AWS_HOSTED_ZONE_ID,
-    };
-    const promise = new AWS.Route53().changeResourceRecordSets(params).promise();
-    promise.then((data) => {
+
+    EC2.addRouteRecord(region, hostname, instance.PublicAddress, type).then((data) => {
       this.timer.push(setTimeout(() => this.checkDns(), this.timeout));
     }).catch((err) => (this.setState(err)));
   }
 
   checkDns() {
-    // console.log("CHECKING DNS");
-    if (this.state.instance.State.Name.toUpperCase() === 'STOPPING') {
+    const { region, instance } = this.state;
+    const { hostname } = this.props;
+    if (instance.State.Name.toUpperCase() === 'STOPPING') {
       this.setState({ dnsState: { Propagated: false } });
     }
-    AWS.config.update({
-      region: this.state.region,
-      accessKeyId: process.env.REACT_APP_AWS_KEY_ID,
-      secretAccessKey: process.env.REACT_APP_AWS_KEY_SECRET,
-    });
-    const params = {
-      RecordType: 'A',
-      RecordName: this.props.hostname,
-      HostedZoneId: process.env.REACT_APP_AWS_HOSTED_ZONE_ID,
-    };
-    const promise = new AWS.Route53().testDNSAnswer(params).promise();
-    promise.then((data) => {
-      if (data.RecordData.length > 0) {
-        if (this.state.instance.State.Name.toUpperCase() !== 'RUNNING') {
-          this.setState({
-            dnsState:
-            {
-              Name: this.props.hostname,
-              Ip: data.RecordData[0],
-              Propagated: false,
-            },
-          });
-          return;
-        }
-        fetch(`https://dns.google/resolve?name=${this.props.hostname}`)
-          .then((res) => res.json())
-          .then((json) => {
-            if ('Answer' in json && json.Answer[0].data === this.state.instance.PublicIpAddress) {
-              this.setState({
-                dnsState: {
-                  Name: this.props.hostname,
-                  Ip: data.RecordData[0],
-                  Propagated: true,
-                },
-              });
-            } else {
-              this.timer.push(setTimeout(() => this.checkDns(), this.timeout * 3));
-            }
-          });
-      } else {
-        this.setState({
-          dnsState:
-          {
-            Name: 'None',
-            Ip: null,
-            Propagated: false,
-          },
-        });
-      }
-    }).catch((err) => (this.setState(err)));
+    EC2.getRouteRecord(region, hostname)
+      .then((data) => {
+        dnsHelper.checkDns(data.RecordData[0], instance, hostname)
+          .then((dnsState) => this.setState({ dnsState }));
+      })
+      .catch((err) => (this.setState(err)));
   }
 
   checkInstanceState() {
@@ -156,14 +94,6 @@ class Server extends React.Component {
         }
         this.setState({ instance: data.Reservations[0].Instances[0] });
         return data.Reservations[0].Instances[0];
-      })
-      .then((data) => {
-        const securityGroupArray = data.SecurityGroups.map((sgItem) => sgItem.GroupId);
-        EC2.getInstanceSecurityGroups(region, securityGroupArray).then((sgData) => {
-          const tempInstance = this.state.instance;
-          Object.assign(tempInstance.SecurityGroups, sgData.SecurityGroups);
-          this.setState({ data: tempInstance });
-        });
       })
       .catch((err) => (this.setState(err)));
   }
