@@ -8,7 +8,6 @@ class Server extends React.Component {
     super(props);
 
     this.state = {
-      loading: false,
       instance: props.instance,
       region: props.region,
       dnsState: {
@@ -99,20 +98,6 @@ class Server extends React.Component {
   }
 
   render() {
-    const sgArray = [];
-    this.state.instance.SecurityGroups.forEach((sgItem) => {
-      if (sgItem.IpPermissions) {
-        sgArray.push(
-        <div key={sgItem.GroupId}>
-          <div className="text-xs font-weight-bold text-uppercase mb-1"><span>Name:</span> {sgItem.GroupName}</div>
-          <div className="text-xs font-weight-bold text-uppercase mb-1"><span>ID:</span> {sgItem.GroupId}</div>
-          <div className="text-xs font-weight-bold text-uppercase mb-1">Ingress: {sgItem.IpPermissions[0].IpRanges[0].CidrIp}</div>
-          <div className="text-xs font-weight-bold text-uppercase mb-1">Egress: {sgItem.IpPermissionsEgress[0].IpRanges[0].CidrIp}</div>
-          <hr className="sidebar-divider"/>
-        </div>,
-        );
-      }
-    });
     return (
       <div className="col">
         <div className="card border-left-secondary shadow h-100 py-2">
@@ -159,7 +144,7 @@ class Server extends React.Component {
               </div>
               <div className="col mr-2">
                 <div className="text-sm text-gray-900 font-weight-bold text-uppercase mb-1">Security Group Details</div>
-                {sgArray}
+                <p>Todo...</p>
               </div>
             </div>
             <div className="row no-gutters align-items-center mt-2">
