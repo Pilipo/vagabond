@@ -10,4 +10,16 @@ const getEC2InstancesByRegionName = (regionName) => {
   return promise;
 };
 
-export default { getEC2InstancesByRegionName };
+const getEC2Regions = () => {
+  AWS.config.update({
+    accessKeyId: process.env.REACT_APP_AWS_KEY_ID,
+    secretAccessKey: process.env.REACT_APP_AWS_KEY_SECRET,
+    region: 'us-east-1',
+  });
+  return new AWS.EC2().describeRegions().promise();
+};
+
+export default {
+  getEC2InstancesByRegionName,
+  getRegions: getEC2Regions,
+};
