@@ -48,11 +48,57 @@ const getEC2InstanceState = (regionName, instanceId) => {
   }).promise();
 };
 
-const getEC2InstanceSecurityGroups = (regionName, sgArray) => {
-  return new AWS.EC2().describeSecurityGroups({
-    GroupIds: sgArray,
-  }).promise();
-};
+const getEC2InstanceSecurityGroups = (regionName, sgArray) => new AWS.EC2().describeSecurityGroups({ GroupIds: sgArray }).promise();
+
+const getEC2Images = (regionName) => new Promise((resolve, reject) => {
+  if (regionName) {
+    AWS.config.update({
+      region: regionName,
+      accessKeyId: process.env.REACT_APP_AWS_KEY_ID,
+      secretAccessKey: process.env.REACT_APP_AWS_KEY_SECRET,
+    });
+    const promiseReturn = new AWS.EC2().describeImages({ Owners: ['self'] }).promise();
+    resolve(promiseReturn);
+  } else {
+    AWS.config.update({
+      region: process.env.REACT_APP_AWS_BASE_REGION,
+      accessKeyId: process.env.REACT_APP_AWS_KEY_ID,
+      secretAccessKey: process.env.REACT_APP_AWS_KEY_SECRET,
+    });
+    getEC2Regions()
+      .then((data) => {
+        const testArray = data.Regions.map((region) => getEC2Images(region.RegionName));
+        resolve(Promise.all(testArray));
+      });
+}
+});
+
+
+
+// const getEC2Images = (regionName) => {
+//   console.log('region', regionName);
+//   let promise;
+//   if (regionName) {
+//     AWS.config.update({
+//       region: regionName,
+//       accessKeyId: process.env.REACT_APP_AWS_KEY_ID,
+//       secretAccessKey: process.env.REACT_APP_AWS_KEY_SECRET,
+//     });
+//     promise = new AWS.EC2().describeImages({ Owners: ['self'] }).promise();
+//   } else {
+//     AWS.config.update({
+//       region: process.env.REACT_APP_AWS_BASE_REGION,
+//       accessKeyId: process.env.REACT_APP_AWS_KEY_ID,
+//       secretAccessKey: process.env.REACT_APP_AWS_KEY_SECRET,
+//     });
+//     getEC2Regions()
+//       .then((data) => {
+//         const testArray = data.Regions.map((region) => getEC2Images(region.RegionName));
+//         promise = Promise.all(testArray);
+//       });
+//   }
+//   return promise;
+// };
 
 const addRoute53Record = (regionName, hostname, ip, type) => {
   AWS.config.update({
@@ -98,12 +144,23 @@ const getRoute53Record = (regionName, hostname) => {
   return new AWS.Route53().testDNSAnswer(params).promise();
 };
 
+const getEC2Regions = () => {
+  AWS.config.update({
+    region: process.env.REACT_APP_AWS_BASE_REGION,
+    accessKeyId: process.env.REACT_APP_AWS_KEY_ID,
+    secretAccessKey: process.env.REACT_APP_AWS_KEY_SECRET,
+  });
+  return new AWS.EC2().describeRegions().promise();
+};
+
 export default {
   getInstances: getEC2InstancesByRegion,
   getInstanceState: getEC2InstanceState,
   getInstanceSecurityGroups: getEC2InstanceSecurityGroups,
+  getImages: getEC2Images,
   getRouteRecord: getRoute53Record,
   addRouteRecord: addRoute53Record,
+  getRegions: getEC2Regions,
   startInstance: startEC2Instance,
   stopInstance: stopEC2Instance,
 };
