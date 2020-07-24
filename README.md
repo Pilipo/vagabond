@@ -1,38 +1,39 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Setup
 
-In the project directory, you can run:
 
-### `npm start`
+
+First, in the project directory, you can run:
+
+### `npm and environment`
+
+#### `npm install`
+
+Set up the dependencies.
+
+#### `.env.local`
+
+Copy `example.env.local` to `.env.local` and configure your
+* AWS Key ID
+* AWS Key Secret
+* AWS Route 53 Host Zone ID _(where you want instance to have DNS records)_
+* AWS Base Region _(where you will be creating your set of AMIs)_
+
+### `AWS Manual Setup`
+
+#### `Permissions`
+Next, be sure your AWS user (defined by your Key ID) has appropriate permissions. I have included `src/awsGroupPolicy.json` as a template for you to copy/paste into an IAM Group Policy that you can apply to you users/groups. You _can_ simply make an admin user, but I personally discourage that.
+
+#### `deploy a EC2 and AMI`
+Setup an EC2 instance _(I use an Ubuntu AMI provided by AWS)_ and install automatic security updates and `squid` and `pivpn` and so on and on. Once it is set like you like it, power down the instance from the AWS Console and select "Actions > Image > Create Image." This will create your own AMI in your currently selected region. __This region should be defined in your `.env.local` as your "base_region."__ This is important for cloning purposes in the application. Once the AMI is finished you keep the EC2 instance or toss it.
+
+### `Kick the tires`
+
+#### `npm start `
 
 Runs the app in the development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
-
-### `AWS Account Requirements`
-
-1. Create an AWS account with permissions defined below.
-2. Create a Route53 hosted zone. Yes, this will require that you have a viable domain name from which to create a subdomain.
-3. **NOTE:** Currently (_version 0.1.5_) you need to have an EC2 instanceId, which requires that you have deployed an ec2 instance. That sucks, but the code should find and access the instances. Bear in mind that this is basically test code currently and has only been tested with one instance.
-3. Copy `example.env.local` to `.env.local`
-4. Populate the variables in `.env.local` _(no spaces or quotes)_ Also, the `REACT_APP_AWS_BASE_URL` needs to be set to the domain name of your hosted zone.
-
-For example, if I have a hosted zone for `example.com`, then `example.com` goes in the .env.local and the instance will point to `proxy.example.com`
-
-### `Permissions`
-##### EC2
-- authorizeSecurityGroupIngress
-- startInstances
-- describeInstanceStatus
-- stopInstances
-- describeSecurityGroups
-- revokeSecurityGroupIngress
-- describeInstances
-- describeRegions
-- changeResourceRecordSets
-
-##### Route53
-- testDNSAnswer

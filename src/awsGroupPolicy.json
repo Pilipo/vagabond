@@ -1,0 +1,22 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+      {
+          "Effect": "Allow",
+          "Action": [
+              "ec2:authorizeSecurityGroupIngress",
+              "ec2:startInstances",
+              "ec2:describeInstanceStatus",
+              "ec2:stopInstances",
+              "ec2:describeSecurityGroups",
+              "ec2:revokeSecurityGroupIngress",
+              "ec2:describeInstances",
+              "ec2:describeRegions",
+              "ec2:describeImages",
+              "route53:changeResourceRecordSets",
+              "route53:testDNSAnswer"
+          ],
+          "Resource": "*"
+      }
+  ]
+}
