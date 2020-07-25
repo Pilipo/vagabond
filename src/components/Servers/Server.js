@@ -90,7 +90,10 @@ class Server extends React.Component {
     EC2.getInstanceState(region, instance.InstanceId)
       .then((data) => {
         const replyState = data.Reservations[0].Instances[0].State.Name;
-        if (replyState.toUpperCase() !== 'RUNNING' && replyState.toUpperCase() !== 'STOPPED') {
+        if (replyState.toUpperCase() !== 'RUNNING'
+        && replyState.toUpperCase() !== 'STOPPED'
+        && replyState.toUpperCase() !== 'TERMINATED'
+        ) {
           this.timer.push(setTimeout(() => this.checkInstanceState(), this.timeout));
         } else {
           this.checkDns();
@@ -106,13 +109,12 @@ class Server extends React.Component {
     this.toggleShow();
     EC2.terminateInstance(region, instance.InstanceId)
       .then((data) => {
-        if (data.StartingInstances.length > 0) {
-          this.setState({ changeDetail: data.StartingInstances[0] });
+        if (data.TerminatingInstances.length > 0) {
+          this.setState({ changeDetail: data.TerminatingInstances[0] });
         }
         this.updateDns();
       })
-      .then(() => this.checkInstanceState())
-      .catch((err) => this.setState(err));
+      .then(() => this.checkInstanceState());
   }
 
   toggleShow() {
@@ -192,7 +194,11 @@ class Server extends React.Component {
             </div>
             <div className="row no-gutters align-items-center mt-2">
               <div className="col">
-                <button onClick={this.toggleShow} className="w-25 m-2 d-sm-inline-block btn btn-md btn-danger shadow-sm"><i className="fas fa-exclamation-triangle text-white-50 "></i> Delete Instance <i className="fas fa-exclamation-triangle text-white-50 "></i></button>
+                <button
+                onClick={this.toggleShow}
+                className="w-25 m-2 d-sm-inline-block btn btn-md btn-danger shadow-sm">
+                  <i className="fas fa-exclamation-triangle text-white-50 "></i> Delete Instance <i className="fas fa-exclamation-triangle text-white-50 "></i>
+                </button>
               </div>
             </div>
           </div>

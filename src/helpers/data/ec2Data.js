@@ -44,10 +44,9 @@ const terminateEC2Instance = (regionName, instanceId) => {
     accessKeyId: process.env.REACT_APP_AWS_KEY_ID,
     secretAccessKey: process.env.REACT_APP_AWS_KEY_SECRET,
   });
-  return new Promise((resolve, reject) => resolve('terminated', instanceId));
-  // return new AWS.EC2().terminateInstances({
-  //   InstanceIds: [instanceId],
-  // }).promise();
+  return new AWS.EC2().terminateInstances({
+    InstanceIds: [instanceId],
+  }).promise();
 };
 
 const getEC2InstanceState = (regionName, instanceId) => {
