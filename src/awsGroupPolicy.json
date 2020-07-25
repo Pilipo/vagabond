@@ -8,6 +8,7 @@
               "ec2:startInstances",
               "ec2:describeInstanceStatus",
               "ec2:stopInstances",
+              "ec2:terminateInstances",
               "ec2:describeSecurityGroups",
               "ec2:revokeSecurityGroupIngress",
               "ec2:describeInstances",
