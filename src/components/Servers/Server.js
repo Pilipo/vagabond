@@ -1,4 +1,5 @@
 import React from 'react';
+import { Modal } from 'react-bootstrap';
 
 import EC2 from '../../helpers/data/ec2Data';
 import dnsHelper from '../../helpers/data/dnsData';
@@ -10,6 +11,7 @@ class Server extends React.Component {
     this.state = {
       instance: props.instance,
       region: props.region,
+      show: false,
       dnsState: {
         Name: 'None',
         Ip: null,
@@ -18,6 +20,8 @@ class Server extends React.Component {
     };
     this.timer = [];
     this.timeout = 1500;
+    this.terminateInstance = this.terminateInstance.bind(this);
+    this.toggleShow = this.toggleShow.bind(this);
   }
 
   componentDidMount() {
@@ -97,6 +101,25 @@ class Server extends React.Component {
       .catch((err) => (this.setState(err)));
   }
 
+  terminateInstance() {
+    const { region, instance } = this.state;
+    this.toggleShow();
+    EC2.terminateInstance(region, instance.InstanceId)
+      .then((data) => {
+        if (data.StartingInstances.length > 0) {
+          this.setState({ changeDetail: data.StartingInstances[0] });
+        }
+        this.updateDns();
+      })
+      .then(() => this.checkInstanceState())
+      .catch((err) => this.setState(err));
+  }
+
+  toggleShow() {
+    const { show } = this.state;
+    this.setState({ show: !show });
+  }
+
   render() {
     return (
       <div className="col">
@@ -167,13 +190,31 @@ class Server extends React.Component {
               </button>
             </div>
             </div>
-            {/* <div className="row no-gutters align-items-center mt-2">
+            <div className="row no-gutters align-items-center mt-2">
               <div className="col">
-                <button className="w-100 m-2 d-sm-inline-block btn btn-md btn-primary shadow-sm"><i className="text-white-50"></i>View</button>
+                <button onClick={this.toggleShow} className="w-25 m-2 d-sm-inline-block btn btn-md btn-danger shadow-sm"><i className="fas fa-exclamation-triangle text-white-50 "></i> Delete Instance <i className="fas fa-exclamation-triangle text-white-50 "></i></button>
               </div>
-            </div> */}
+            </div>
           </div>
         </div>
+        <Modal show={this.state.show} onHide={this.toggleShow}>
+          <div className="modal-content panel-warning">
+            <Modal.Header className="panel-heading" closeButton>
+              <Modal.Title id="contained-modal-title-vcenter">Delete Server Instace??</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <p>Are you SURE?!</p>
+              <div className="row">
+                <div className="col text-center">
+                  <button className="btn btn-danger" onClick={this.terminateInstance}>Delete?</button>
+                </div>
+                <div className="col text-center">
+                <button className="btn btn-success" onClick={this.toggleShow}>Cancel</button>
+                </div>
+              </div>
+            </Modal.Body>
+          </div>
+        </Modal>
       </div>
     );
   }

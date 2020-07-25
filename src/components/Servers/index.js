@@ -29,6 +29,7 @@ class Servers extends React.Component {
     const promise = req.promise();
     promise.then((data) => {
       if (data.Reservations.length > 0) {
+        console.log(data.Reservations);
         this.setState({
           Vms: data.Reservations[0].Instances,
         });
