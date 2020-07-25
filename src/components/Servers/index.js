@@ -1,6 +1,6 @@
 import React from 'react';
-import AWS from 'aws-sdk';
 
+import EC2 from '../../helpers/data/ec2Data';
 import Server from './Server';
 import RegionSelection from '../RegionSelection';
 
@@ -17,27 +17,21 @@ class Servers extends React.Component {
     this.setState({ Region: newRegion }, this.retrieveServerInstances(newRegion));
   }
 
-  retrieveServerInstances(targetRegion = this.state.Region) {
-    AWS.config.update({
-      region: targetRegion,
-      accessKeyId: process.env.REACT_APP_AWS_KEY_ID,
-      secretAccessKey: process.env.REACT_APP_AWS_KEY_SECRET,
-    });
-    const req = new AWS.EC2().describeInstances({
-      DryRun: false,
-    });
-    const promise = req.promise();
-    promise.then((data) => {
-      if (data.Reservations.length > 0) {
-        this.setState({
-          Vms: data.Reservations[0].Instances,
-        });
-      } else {
-        this.setState({ Vms: [] });
-      }
-    }).catch((err) => {
-      this.setState(err);
-    });
+  retrieveServerInstances(targetRegion) {
+    EC2.getInstances(targetRegion)
+      .then((data) => {
+        if (data.Reservations.length > 0) {
+          const instanceArray = [];
+          data.Reservations.forEach((res) => res.Instances.forEach((insArr) => instanceArray.push(insArr)));
+          this.setState({
+            Vms: instanceArray,
+          });
+        } else {
+          this.setState({ Vms: [] });
+        }
+      }).catch((err) => {
+        this.setState(err);
+      });
   }
 
   render() {

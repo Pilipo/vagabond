@@ -1,7 +1,7 @@
 import React from 'react';
 import AWS from 'aws-sdk';
 
-import regionHelper from '../../helpers/data/regionData';
+import EC2 from '../../helpers/data/ec2Data';
 
 class RegionSelection extends React.Component {
   constructor() {
@@ -11,21 +11,6 @@ class RegionSelection extends React.Component {
       selectedRegion: null,
     };
     this.retrieveRegions();
-  }
-
-  getInstancesPerRegion(regionsArray) {
-    if (regionsArray.length > 0) {
-      regionsArray.forEach((region) => {
-        const promise = regionHelper.getEC2InstancesByRegionName(region.RegionName);
-        promise.then((data) => {
-          if (data.Reservations[0]) {
-            region.instances = data.Reservations[0].Instances;
-          } else {
-            region.instances = [];
-          }
-        });
-      });
-    }
   }
 
   retrieveRegions() {
@@ -38,10 +23,20 @@ class RegionSelection extends React.Component {
     const promise = ec2.describeRegions().promise();
     promise.then((data) => {
       if (data.Regions.length > 0) {
+        data.Regions.forEach((region) => {
+          EC2.getInstances(region.RegionName)
+            .then((res) => {
+              if (res.Reservations.length > 0) {
+                const instanceArray = [];
+                res.Reservations.forEach((resArr) => resArr.Instances.forEach((insArr) => instanceArray.push(insArr)));
+                // eslint-disable-next-line no-param-reassign
+                region.instances = instanceArray;
+              }
+            });
+        });
         this.setState({
           Regions: data.Regions,
         });
-        this.getInstancesPerRegion(data.Regions);
       }
     }).catch((err) => (this.setState(err)));
   }
