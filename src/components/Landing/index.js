@@ -8,12 +8,18 @@ const Landing = () => {
   const [amiArray, setamiArray] = useState([]);
   if (!loading) {
     setloading(!loading);
-    EC2.getImages()
+    EC2.getRegions()
       .then((data) => {
-        setamiArray(data);
-        setloading(!loading);
-      })
-      .catch((err) => console.log('Oh no!!', err));
+        // console.log(data.Regions);
+        data.Regions.forEach((region) => {
+          EC2.getImages(region.RegionName)
+            .then((imgArr) => imgArr.Images.forEach((img) => {
+              const newImg = img;
+              newImg.RegionName = region.RegionName;
+              setamiArray(amiArray.concat(newImg));
+            }));
+        });
+      });
   }
 
   return (
@@ -116,7 +122,7 @@ const Landing = () => {
               </div>
             </div>
           </div>
-          {amiArray.map((region, index) => <AMIBlock key={index} amiArray={region.Images} />)}
+          {amiArray.length ? amiArray.map((ami) => <AMIBlock key={ami.ImageId} image={ami} />) : 'Loading...'}
         </div>
       </div>
     </div>
@@ -125,8 +131,9 @@ const Landing = () => {
 };
 
 const AMIBlock = (props) => {
-  return props.amiArray.map((ami) => (
-              <div key={ami.ImageId} className="card-body">
+  console.log('block props', props);
+  return (
+              <div key={props.image.ImageId} className="card-body">
                 <div className="row no-gutters align-items-center">
                   <div className="col mr-2">
                     <div className="text-xs font-weight-bold text-info text-uppercase mb-1"></div>
@@ -134,21 +141,21 @@ const AMIBlock = (props) => {
                       <div className="col">
                         <div className="row no-gutters align-items-center">
                           <div className="col">
-                            <div className="h5 font-weight-bold text-gray-800 text-center">{ami.Name}</div>
+                            <div className="h5 font-weight-bold text-gray-800 text-center">{props.image.Name}</div>
                             <div className="font-weight-light text-muted text-center"><small>Created: 06-27-2020</small></div>
                           </div>
                         </div>
                         <div className="row no-gutters align-items-center">
                           <div className="col text-center mt-4">
-                            <p className="font-weight-bold text-gray-600">Description: <small className="text-sm font-weight-light">{ami.Description}</small></p>
+                            <p className="font-weight-bold text-gray-600">Description: <small className="text-sm font-weight-light">{props.image.Description}</small></p>
                           </div>
                         </div>
                         <div className="row no-gutters align-items-center">
                           <div className="col text-center mt-4">
-                            <p className="font-weight-bold text-gray-600">Image Id: <small className="text-sm font-weight-light">{ami.ImageId}</small></p>
+                            <p className="font-weight-bold text-gray-600">Image Id: <small className="text-sm font-weight-light">{props.image.ImageId}</small></p>
                           </div>
                           <div className="col text-center mt-4">
-                            <p className="font-weight-bold text-gray-600">Platform Details: <small className="text-sm font-weight-light">{ami.PlatformDetails}</small></p>
+                            <p className="font-weight-bold text-gray-600">Platform Details: <small className="text-sm font-weight-light">{props.image.PlatformDetails}</small></p>
                           </div>
                         </div>
                         <hr className="dropdown-divider" />
@@ -157,7 +164,7 @@ const AMIBlock = (props) => {
                   </div>
                 </div>
               </div>
-  ));
+  );
 };
 
 export default Landing;
