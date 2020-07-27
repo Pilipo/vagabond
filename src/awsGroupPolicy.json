@@ -14,6 +14,8 @@
               "ec2:describeInstances",
               "ec2:describeRegions",
               "ec2:describeImages",
+              "ec2:runInstances",
+              "ec2:createTags",
               "route53:changeResourceRecordSets",
               "route53:testDNSAnswer"
           ],

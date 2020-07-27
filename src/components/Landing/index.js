@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import AMImage from '../AMImage';
 import EC2 from '../../helpers/data/ec2Data';
 import './landing.scss';
 
@@ -95,75 +96,20 @@ const Landing = () => {
                       <div className="col text-center mt-4">
                         <p>
                           Feature description
-                              </p>
+                        </p>
                       </div>
                     </div>
                     <hr className="dropdown-divider" />
                   </div>
                 </div>
               </div>
-              {/* <div className="col-auto">
-                      <i className="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                    </div> */}
             </div>
           </div>
         </div>
       </div>
-      {/* AMI Testing */}
-      <div className="col-xl-3 col-md-6 mb-4">
-        <div className="card border-left-success shadow h-100">
-          <div className="card-header py-3">
-            <div className="row no-gutters align-items-center">
-              <div className="col mr-2">
-                <h6 className="m-0 font-weight-bold text-primary">AMI Details</h6>
-              </div>
-              <div className="col-auto">
-                <i className="fas fa-clone fa-2x text-gray-300"></i>
-              </div>
-            </div>
-          </div>
-          {amiArray.length ? amiArray.map((ami) => <AMIBlock key={ami.ImageId} image={ami} />) : 'Loading...'}
-        </div>
-      </div>
+      <AMImage />
     </div>
   </div>
-  );
-};
-
-const AMIBlock = (props) => {
-  console.log('block props', props);
-  return (
-              <div key={props.image.ImageId} className="card-body">
-                <div className="row no-gutters align-items-center">
-                  <div className="col mr-2">
-                    <div className="text-xs font-weight-bold text-info text-uppercase mb-1"></div>
-                    <div className="row no-gutters align-items-center">
-                      <div className="col">
-                        <div className="row no-gutters align-items-center">
-                          <div className="col">
-                            <div className="h5 font-weight-bold text-gray-800 text-center">{props.image.Name}</div>
-                            <div className="font-weight-light text-muted text-center"><small>Created: 06-27-2020</small></div>
-                          </div>
-                        </div>
-                        <div className="row no-gutters align-items-center">
-                          <div className="col text-center mt-4">
-                            <p className="font-weight-bold text-gray-600">Description: <small className="text-sm font-weight-light">{props.image.Description}</small></p>
-                          </div>
-                        </div>
-                        <div className="row no-gutters align-items-center">
-                          <div className="col text-center mt-4">
-                            <p className="font-weight-bold text-gray-600">Image Id: <small className="text-sm font-weight-light">{props.image.ImageId}</small></p>
-                          </div>
-                          <div className="col text-center mt-4">
-                            <p className="font-weight-bold text-gray-600">Platform Details: <small className="text-sm font-weight-light">{props.image.PlatformDetails}</small></p>
-                          </div>
-                        </div>
-                        <hr className="dropdown-divider" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
   );
 };
 

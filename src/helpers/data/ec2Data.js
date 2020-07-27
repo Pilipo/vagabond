@@ -12,6 +12,23 @@ const getEC2InstancesByRegion = (regionName) => {
   return promise;
 };
 
+const launchEC2InstanceByAmiId = (regionName, imageId) => {
+  AWS.config.update({
+    region: regionName,
+    accessKeyId: process.env.REACT_APP_AWS_KEY_ID,
+    secretAccessKey: process.env.REACT_APP_AWS_KEY_SECRET,
+  });
+  const promise = new AWS.EC2().runInstances({
+    DryRun: false,
+    ImageId: 'ami-01639eced833878d3',
+    InstanceType: 't2.micro',
+    KeyName: 'Phillip-AWS-PROXY',
+    MinCount: 1,
+    MaxCount: 1,
+  }).promise();
+  return promise;
+};
+
 const startEC2Instance = (regionName, instanceId) => {
   AWS.config.update({
     region: regionName,
@@ -46,6 +63,18 @@ const terminateEC2Instance = (regionName, instanceId) => {
   });
   return new AWS.EC2().terminateInstances({
     InstanceIds: [instanceId],
+  }).promise();
+};
+
+const tagEC2Instance = (regionName, instanceId, kvArr) => {
+  AWS.config.update({
+    region: regionName,
+    accessKeyId: process.env.REACT_APP_AWS_KEY_ID,
+    secretAccessKey: process.env.REACT_APP_AWS_KEY_SECRET,
+  });
+  return new AWS.EC2().createTags({
+    Resources: [instanceId],
+    Tags: kvArr,
   }).promise();
 };
 
@@ -149,7 +178,9 @@ export default {
   getRouteRecord: getRoute53Record,
   addRouteRecord: addRoute53Record,
   getRegions: getEC2Regions,
+  launchInstance: launchEC2InstanceByAmiId,
   startInstance: startEC2Instance,
   stopInstance: stopEC2Instance,
   terminateInstance: terminateEC2Instance,
+  tagInstance: tagEC2Instance,
 };

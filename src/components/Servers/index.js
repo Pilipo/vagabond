@@ -45,7 +45,7 @@ class Servers extends React.Component {
         name={instance.KeyName}
         ip={instance.PublicIpAddress}
         state={instance.State.Name}
-        type={instance.Tags[0].Value}
+        type={instance.Tags.length > 0 ? instance.Tags[0].Value : 'Unnamed'}
         hostname="proxy.philliplehner.com"
       />
     ));
