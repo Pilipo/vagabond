@@ -8,16 +8,24 @@ class Servers extends React.Component {
   constructor() {
     super();
     this.state = {
+      regions: [],
       Region: null,
       Vms: [],
     };
+
+    this.getRegions();
   }
 
   handleRegionChange = (newRegion) => {
-    this.setState({ Region: newRegion }, this.retrieveServerInstances(newRegion));
+    this.setState({ Region: newRegion }, this.getServerInstances(newRegion));
   }
 
-  retrieveServerInstances(targetRegion) {
+  getRegions() {
+    EC2.getRegions()
+      .then((data) => this.setState({ regions: data.Regions }));
+  }
+
+  getServerInstances(targetRegion) {
     EC2.getInstances(targetRegion)
       .then((data) => {
         if (data.Reservations.length > 0) {
@@ -51,7 +59,7 @@ class Servers extends React.Component {
     ));
     return (
       <>
-      <RegionSelection handler={this.handleRegionChange} />
+      <RegionSelection regions={this.state.regions} handler={this.handleRegionChange} />
       {vmItems}
       </>
     );

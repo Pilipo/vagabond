@@ -1,29 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import AMImage from '../AMImage';
-import EC2 from '../../helpers/data/ec2Data';
 import './landing.scss';
 
-const Landing = () => {
-  const [loading, setloading] = useState(false);
-  const [amiArray, setamiArray] = useState([]);
-  if (!loading) {
-    setloading(!loading);
-    EC2.getRegions()
-      .then((data) => {
-        // console.log(data.Regions);
-        data.Regions.forEach((region) => {
-          EC2.getImages(region.RegionName)
-            .then((imgArr) => imgArr.Images.forEach((img) => {
-              const newImg = img;
-              newImg.RegionName = region.RegionName;
-              setamiArray(amiArray.concat(newImg));
-            }));
-        });
-      });
-  }
-
-  return (
+const Landing = () => (
   <div className="container-fluid">
     <h1 className="h2 text-center">Welcome to Vagabond</h1>
     <div className="row">
@@ -110,7 +90,6 @@ const Landing = () => {
       <AMImage />
     </div>
   </div>
-  );
-};
+);
 
 export default Landing;
